@@ -35,3 +35,12 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import "@ionic/angular/css/palettes/dark.system.css";
+
+body, html, ion-app, ion-router-outlet {
+  height: 100%;
+  overflow: hidden; /* Desactiva scroll global */
+}
+
+ion-content {
+  overflow-y: auto; /* Activa scroll solo aquí */
+}

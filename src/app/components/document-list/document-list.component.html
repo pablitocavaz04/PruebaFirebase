@@ -1,21 +1,60 @@
 <ion-list>
-  <ion-item *ngFor="let doc of documents">
-    <ion-label>
-      <h2>{{ doc.title }}</h2>
+  <!-- Lista de documentos -->
+  <ion-card *ngFor="let doc of documents">
+    <ion-card-header>
+      <ion-card-title>{{ doc.title }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
       <p>{{ doc.description }}</p>
-    </ion-label>
-    <ion-button (click)="markAsFavorite(doc)">
-      <ion-icon slot="icon-only" [name]="doc.isFavorite ? 'star' : 'star-outline'"></ion-icon>
-    </ion-button>
-    <ion-button color="primary" (click)="selectDocument(doc)">Actualizar</ion-button>
-    <ion-button color="danger" (click)="deleteDocument(doc.id)">Eliminar</ion-button>
-  </ion-item>
+      <ion-button
+        size="small"
+        fill="outline"
+        color="primary"
+        (click)="markAsFavorite(doc)"
+      >
+        <ion-icon
+          slot="start"
+          [name]="doc.isFavorite ? 'star' : 'star-outline'"
+        ></ion-icon>
+        {{ doc.isFavorite ? 'Desmarcar Favorito' : 'Marcar Favorito' }}
+      </ion-button>
+      <ion-button
+        size="small"
+        fill="solid"
+        color="secondary"
+        (click)="selectDocument(doc)"
+      >
+        Actualizar
+      </ion-button>
+      <ion-button
+        size="small"
+        fill="clear"
+        color="danger"
+        (click)="deleteDocument(doc.id)"
+      >
+        Eliminar
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
 </ion-list>
 
 <!-- Formulario de actualización -->
-<app-update-document
-  *ngIf="selectedDocument"
-  [documentId]="selectedDocument.id"
-  [initialData]="selectedDocument"
-></app-update-document>
-<ion-button *ngIf="selectedDocument" color="secondary" (click)="clearSelection()">Cancelar</ion-button>
+<ion-card *ngIf="selectedDocument">
+  <ion-card-header>
+    <ion-card-title>Actualizar Documento</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <form [formGroup]="updateForm" (ngSubmit)="onUpdate()">
+      <ion-item>
+        <ion-label position="floating">Título</ion-label>
+        <ion-input formControlName="title"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Descripción</ion-label>
+        <ion-textarea formControlName="description"></ion-textarea>
+      </ion-item>
+      <ion-button expand="full" type="submit" color="primary">Actualizar</ion-button>
+      <ion-button expand="full" color="light" (click)="clearSelection()">Cancelar</ion-button>
+    </form>
+  </ion-card-content>
+</ion-card>
