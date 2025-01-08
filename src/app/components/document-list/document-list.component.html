@@ -4,6 +4,15 @@
       <h2>{{ doc.title }}</h2>
       <p>{{ doc.description }}</p>
     </ion-label>
+    <ion-button color="primary" (click)="selectDocument(doc)">Actualizar</ion-button>
     <ion-button color="danger" (click)="deleteDocument(doc.id)">Eliminar</ion-button>
   </ion-item>
 </ion-list>
+
+<!-- Formulario de actualización -->
+<app-update-document
+  *ngIf="selectedDocument"
+  [documentId]="selectedDocument.id"
+  [initialData]="selectedDocument"
+></app-update-document>
+<ion-button *ngIf="selectedDocument" color="secondary" (click)="clearSelection()">Cancelar</ion-button>

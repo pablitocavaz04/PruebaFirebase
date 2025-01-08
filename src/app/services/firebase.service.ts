@@ -24,4 +24,9 @@ export class FirebaseService {
   deleteDocument(id: string): Promise<void> {
     return this.firestore.collection(this.collectionName).doc(id).delete();
   }
+  // Editar un documento
+updateDocument(id: string, data: any): Promise<void> {
+  return this.firestore.collection(this.collectionName).doc(id).update(data);
+}
+
 }

@@ -11,6 +11,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CreateDocumentComponent } from './components/create-document/create-document.component';
 import { DocumentListComponent } from './components/document-list/document-list.component';
+import { UpdateDocumentComponent } from './components/update-document/update-document.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
@@ -18,6 +19,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     AppComponent,
     CreateDocumentComponent,
     DocumentListComponent,
+    UpdateDocumentComponent,
   ],
   imports: [
     BrowserModule,
