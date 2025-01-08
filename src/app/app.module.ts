@@ -4,7 +4,7 @@ import { RouteReuseStrategy } from '@angular/router';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { environment } from '../environments/environment';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'; 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppComponent } from './app.component';
@@ -13,7 +13,6 @@ import { CreateDocumentComponent } from './components/create-document/create-doc
 import { DocumentListComponent } from './components/document-list/document-list.component';
 import { UpdateDocumentComponent } from './components/update-document/update-document.component';
 import { FavoriteListComponent } from './components/favorite-list/favorite-list.component';
-import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -30,6 +29,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
     ReactiveFormsModule, // Asegúrate de importar ReactiveFormsModule
+    FormsModule,
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],

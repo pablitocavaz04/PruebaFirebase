@@ -1,6 +1,16 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Lista de Documentos</ion-title>
+    <ion-searchbar
+      placeholder="Buscar documentos"
+      [(ngModel)]="searchTerm"
+      (ionInput)="filterDocuments()"
+    ></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
 <ion-list>
-  <!-- Lista de documentos -->
-  <ion-card *ngFor="let doc of documents">
+  <ion-card *ngFor="let doc of filteredDocuments">
     <ion-card-header>
       <ion-card-title>{{ doc.title }}</ion-card-title>
     </ion-card-header>

@@ -10,14 +10,15 @@ import { FirebaseService } from '../../services/firebase.service';
 })
 export class DocumentListComponent implements OnInit {
   documents: any[] = [];
+  filteredDocuments: any[] = []; // Lista filtrada
   selectedDocument: any | null = null; // Documento seleccionado para actualizar
+  searchTerm: string = ''; // Término de búsqueda
   updateForm: FormGroup; // Formulario reactivo para actualizar
 
   constructor(
     private fb: FormBuilder,
     private firebaseService: FirebaseService
   ) {
-    // Inicializamos el formulario reactivo
     this.updateForm = this.fb.group({
       title: ['', Validators.required],
       description: ['', Validators.required],
@@ -27,26 +28,32 @@ export class DocumentListComponent implements OnInit {
   ngOnInit(): void {
     this.firebaseService.getDocuments().subscribe((data) => {
       this.documents = data;
+      this.filteredDocuments = data; // Inicialmente, la lista filtrada es igual a la original
     });
   }
 
-  // Método para seleccionar un documento y mostrar el formulario de actualización
+  // Método para filtrar documentos según el término de búsqueda
+  filterDocuments(): void {
+    const term = this.searchTerm.toLowerCase();
+    this.filteredDocuments = this.documents.filter((doc) =>
+      doc.title.toLowerCase().includes(term) ||
+      doc.description.toLowerCase().includes(term)
+    );
+  }
+
   selectDocument(document: any): void {
     this.selectedDocument = document;
-    // Rellenamos el formulario con los datos actuales del documento
     this.updateForm.patchValue({
       title: document.title,
       description: document.description,
     });
   }
 
-  // Método para limpiar la selección y ocultar el formulario
   clearSelection(): void {
     this.selectedDocument = null;
     this.updateForm.reset();
   }
 
-  // Método para actualizar un documento en Firebase
   onUpdate(): void {
     if (this.updateForm.valid && this.selectedDocument) {
       const updatedData = this.updateForm.value;
@@ -54,7 +61,7 @@ export class DocumentListComponent implements OnInit {
         .updateDocument(this.selectedDocument.id, updatedData)
         .then(() => {
           console.log('Documento actualizado');
-          this.clearSelection(); // Limpiamos la selección después de actualizar
+          this.clearSelection();
         })
         .catch((error) =>
           console.error('Error al actualizar el documento:', error)
@@ -62,28 +69,26 @@ export class DocumentListComponent implements OnInit {
     }
   }
 
-  // Método para eliminar un documento
   deleteDocument(id: string): void {
     this.firebaseService
       .deleteDocument(id)
       .then(() => {
         console.log('Documento eliminado');
-        // Opcional: Actualizar la lista localmente
         this.documents = this.documents.filter((doc) => doc.id !== id);
+        this.filteredDocuments = this.filteredDocuments.filter((doc) => doc.id !== id);
       })
       .catch((error) => {
         console.error('Error al eliminar el documento:', error);
       });
   }
 
-  // Método para marcar o desmarcar un documento como favorito
   markAsFavorite(document: any): void {
     const updatedData = { isFavorite: !document.isFavorite };
     this.firebaseService
       .updateDocument(document.id, updatedData)
       .then(() => {
         console.log('Estado de favorito actualizado');
-        document.isFavorite = !document.isFavorite; // Actualizamos localmente para evitar recarga
+        document.isFavorite = !document.isFavorite;
       })
       .catch((error) =>
         console.error('Error al actualizar el estado de favorito:', error)
