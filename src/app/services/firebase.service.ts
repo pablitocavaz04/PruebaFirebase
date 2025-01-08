@@ -17,8 +17,10 @@ export class FirebaseService {
 
   // Crear un nuevo documento
   createDocument(data: any): Promise<any> {
-    return this.firestore.collection(this.collectionName).add(data);
+    const document = { ...data, isFavorite: false }; // Agregamos el campo por defecto
+    return this.firestore.collection(this.collectionName).add(document);
   }
+  
 
   // Eliminar un documento
   deleteDocument(id: string): Promise<void> {

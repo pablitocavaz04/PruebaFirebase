@@ -12,6 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { CreateDocumentComponent } from './components/create-document/create-document.component';
 import { DocumentListComponent } from './components/document-list/document-list.component';
 import { UpdateDocumentComponent } from './components/update-document/update-document.component';
+import { FavoriteListComponent } from './components/favorite-list/favorite-list.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
@@ -20,6 +21,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     CreateDocumentComponent,
     DocumentListComponent,
     UpdateDocumentComponent,
+    FavoriteListComponent,
   ],
   imports: [
     BrowserModule,

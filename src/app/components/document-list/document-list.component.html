@@ -4,6 +4,9 @@
       <h2>{{ doc.title }}</h2>
       <p>{{ doc.description }}</p>
     </ion-label>
+    <ion-button (click)="markAsFavorite(doc)">
+      <ion-icon slot="icon-only" [name]="doc.isFavorite ? 'star' : 'star-outline'"></ion-icon>
+    </ion-button>
     <ion-button color="primary" (click)="selectDocument(doc)">Actualizar</ion-button>
     <ion-button color="danger" (click)="deleteDocument(doc.id)">Eliminar</ion-button>
   </ion-item>

@@ -39,4 +39,15 @@ export class DocumentListComponent implements OnInit {
       console.error('Error al eliminar el documento:', error);
     });
   }
+
+  markAsFavorite(document: any): void {
+    const updatedData = { isFavorite: !document.isFavorite };
+    this.firebaseService.updateDocument(document.id, updatedData)
+      .then(() => {
+        console.log('Estado de favorito actualizado');
+        document.isFavorite = !document.isFavorite; // Actualizamos localmente para evitar recarga
+      })
+      .catch(error => console.error('Error al actualizar el estado de favorito:', error));
+  }
+  
 }

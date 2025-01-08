@@ -6,7 +6,7 @@ import { FirebaseService } from '../../services/firebase.service';
   selector: 'app-create-document',
   templateUrl: './create-document.component.html',
   styleUrls: ['./create-document.component.scss'],
-  standalone: false,
+  standalone: false, // Asegúrate de que standalone esté configurado como false
 })
 export class CreateDocumentComponent {
   documentForm: FormGroup;
