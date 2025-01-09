@@ -1,34 +1,50 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { Observable } from 'rxjs';
+import { initializeApp } from 'firebase/app';
+import { getFirestore, collection, doc, getDocs, addDoc, deleteDoc, updateDoc } from 'firebase/firestore';
+import { BehaviorSubject } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FirebaseService {
-  private collectionName = 'PruebaFirebase'; // Cambia esto por el nombre de tu colección
+  private db = getFirestore(initializeApp(environment.firebaseConfig));
+  private collectionName = 'PruebaFirebase';
+  private documents$ = new BehaviorSubject<any[]>([]);
 
-  constructor(private firestore: AngularFirestore) {}
+  constructor() {
+    this.loadDocuments();
+  }
 
-  // Obtener todos los documentos
-  getDocuments(): Observable<any[]> {
-    return this.firestore.collection(this.collectionName).valueChanges({ idField: 'id' });
+  private async loadDocuments(): Promise<void> {
+    const snapshot = await getDocs(collection(this.db, this.collectionName));
+    const documents = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    this.documents$.next(documents);
+  }
+
+  // Obtener todos los documentos como Observable
+  getDocuments() {
+    return this.documents$.asObservable();
   }
 
   // Crear un nuevo documento
-  createDocument(data: any): Promise<any> {
-    const document = { ...data, isFavorite: false }; // Agregamos el campo por defecto
-    return this.firestore.collection(this.collectionName).add(document);
+  async createDocument(data: any): Promise<void> {
+    const document = { ...data, isFavorite: false };
+    await addDoc(collection(this.db, this.collectionName), document);
+    this.loadDocuments(); // Recargar documentos
   }
-  
 
   // Eliminar un documento
-  deleteDocument(id: string): Promise<void> {
-    return this.firestore.collection(this.collectionName).doc(id).delete();
+  async deleteDocument(id: string): Promise<void> {
+    const documentRef = doc(this.db, this.collectionName, id);
+    await deleteDoc(documentRef);
+    this.loadDocuments(); // Recargar documentos
   }
-  // Editar un documento
-updateDocument(id: string, data: any): Promise<void> {
-  return this.firestore.collection(this.collectionName).doc(id).update(data);
-}
 
+  // Editar un documento
+  async updateDocument(id: string, data: any): Promise<void> {
+    const documentRef = doc(this.db, this.collectionName, id);
+    await updateDoc(documentRef, data);
+    this.loadDocuments(); // Recargar documentos
+  }
 }

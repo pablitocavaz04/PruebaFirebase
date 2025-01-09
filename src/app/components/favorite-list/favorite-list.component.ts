@@ -5,7 +5,7 @@ import { FirebaseService } from '../../services/firebase.service';
   selector: 'app-favorite-list',
   templateUrl: './favorite-list.component.html',
   styleUrls: ['./favorite-list.component.scss'],
-  standalone: false, // Aseguramos que no sea standalone
+  standalone:false,
 })
 export class FavoriteListComponent implements OnInit {
   favoriteDocuments: any[] = [];
