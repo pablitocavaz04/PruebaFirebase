@@ -1,3 +1,13 @@
 <ion-app>
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Mi App</ion-title>
+      <!-- Botón Home -->
+      <ion-button fill="clear" (click)="goToHome()">Home</ion-button>
+      <!-- Botón Datos de Sesión -->
+      <ion-button fill="clear" (click)="goToProfile()">Datos de Sesión</ion-button>
+    </ion-toolbar>
+  </ion-header>
+
   <ion-router-outlet></ion-router-outlet>
 </ion-app>

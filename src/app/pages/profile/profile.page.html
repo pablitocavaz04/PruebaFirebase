@@ -1,0 +1,16 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Datos de Sesión</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="currentUser; else notLogged">
+    <p>Correo: {{ currentUser?.email }}</p>
+    <ion-button (click)="onLogout()">Cerrar Sesión</ion-button>
+  </div>
+
+  <ng-template #notLogged>
+    <p>No hay usuario logueado.</p>
+  </ng-template>
+</ion-content>

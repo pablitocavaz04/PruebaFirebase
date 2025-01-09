@@ -18,4 +18,10 @@
       Iniciar Sesión
     </ion-button>
   </form>
+  <ion-button expand="full" color="secondary" (click)="goToRegister()">
+    ¿No tienes cuenta? Regístrate
+  </ion-button>
+  <ion-text color="danger" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </ion-text>
 </ion-content>

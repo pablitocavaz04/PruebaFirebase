@@ -11,6 +11,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class LoginPage {
   loginForm: FormGroup;
+  errorMessage: string = "";
 
   constructor(
     private authService: AuthService,
@@ -30,9 +31,16 @@ export class LoginPage {
         await this.authService.login(email, password);
         console.log('Login exitoso');
         this.router.navigate(['/home']);
-      } catch (error) {
+      } catch (error: any) {
         console.error('Error en el login:', error);
+        this.errorMessage = 'Credenciales incorrectas. Inténtalo de nuevo.';
       }
     }
   }
+
+  goToRegister() {
+    this.router.navigate(['/register']);
+  }
+
+  
 }
